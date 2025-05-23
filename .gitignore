@@ -14,3 +14,6 @@ nbactions.xml
 
 # End of https://www.toptal.com/developers/gitignore/api/netbeans
 /target/
+/online-store-persistence/target/
+/online-store-core/target/
+/online-store-web/target/
