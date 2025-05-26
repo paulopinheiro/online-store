@@ -8,10 +8,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author 2360
- */
 @WebServlet(name = "HelloWorldServlet", urlPatterns = {"/hello"})
 public class HelloWorldServlet extends HttpServlet {
 
@@ -26,6 +22,7 @@ public class HelloWorldServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        request.getSession().setAttribute("listenerTest", "Testing listener");
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
