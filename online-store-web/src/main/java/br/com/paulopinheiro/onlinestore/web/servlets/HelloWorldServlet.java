@@ -3,12 +3,14 @@ package br.com.paulopinheiro.onlinestore.web.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebInitParam;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "HelloWorldServlet", urlPatterns = {"/hello"})
+@WebServlet(name = "helloWorldServlet", urlPatterns = {"/hello-world","/hello"}, initParams = {
+    @WebInitParam(name = "greetings", value = "Hello World")})
 public class HelloWorldServlet extends HttpServlet {
 
     /**

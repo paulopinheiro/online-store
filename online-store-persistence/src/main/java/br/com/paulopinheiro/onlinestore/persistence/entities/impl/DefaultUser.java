@@ -17,6 +17,8 @@ public class DefaultUser implements User {
     private String roleName;
     private double money;
     private String creditCard;
+    private String partnerCode;
+    private User referrerUser;
     {
         id= ++userCounter;
     }
@@ -143,5 +145,25 @@ public class DefaultUser implements User {
                 + "First Name: " + this.getFirstName() + "\t\t"
                 + "Last Name: " + this.getLastName() + "\t\t"
                 + "Email: " + this.getEmail();
+    }
+
+    @Override
+    public String getPartnerCode() {
+        return this.partnerCode;
+    }
+
+    @Override
+    public void setPartnerCode(String partnerCode) {
+        this.partnerCode = partnerCode;
+    }
+
+    @Override
+    public void setReferrerUser(User referrerUser) {
+        this.referrerUser = referrerUser;
+    }
+
+    @Override
+    public User getReferrerUser() {
+        return this.referrerUser;
     }
 }

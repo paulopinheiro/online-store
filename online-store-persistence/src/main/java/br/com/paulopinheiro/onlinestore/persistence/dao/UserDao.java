@@ -8,4 +8,5 @@ public interface UserDao {
     List<UserDto> getUsers();
     UserDto getUserByEmail(String userEmail);
     UserDto getUserById(int id);
+    UserDto getUserByPartnerCode(String partnerCode);
 }

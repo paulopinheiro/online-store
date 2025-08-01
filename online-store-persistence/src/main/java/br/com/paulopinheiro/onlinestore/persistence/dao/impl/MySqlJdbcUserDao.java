@@ -4,6 +4,7 @@ import br.com.paulopinheiro.onlinestore.persistence.dao.RoleDao;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.UserDto;
 import br.com.paulopinheiro.onlinestore.persistence.utils.db.DBUtils;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -115,5 +116,40 @@ public class MySqlJdbcUserDao implements UserDao {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public UserDto getUserByPartnerCode(String partnerCode) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user WHERE partner_code = ?")) {
+            ps.setString(1, partnerCode);
+            try (var rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return parseUserDtoFromResultSet(rs);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private UserDto parseUserDtoFromResultSet(ResultSet rs) {
+        UserDto user = new UserDto();
+        try {
+            user.setId(rs.getInt("id"));
+            user.setFirstName(rs.getString("first_name"));
+            user.setLastName(rs.getString("last_name"));
+            user.setEmail(rs.getString("email"));
+            user.setRoleDto(roleDao.getRoleById(rs.getInt("fk_user_role")));
+            user.setMoney(rs.getBigDecimal("money"));
+            user.setCreditCard(rs.getString("credit_card"));
+            user.setPassword(rs.getString("password"));
+            user.setPartnerCode(rs.getString("partner_code"));
+            user.setReferrerUser(this.getUserById(rs.getInt("referrer_user_id")));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }
