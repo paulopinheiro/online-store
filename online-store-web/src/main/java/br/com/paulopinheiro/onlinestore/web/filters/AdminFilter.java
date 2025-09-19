@@ -13,7 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebFilter(filterName = "AdminFilter", urlPatterns = {"/admin/*"})
+@WebFilter(urlPatterns = {"/admin/*"})
 public class AdminFilter extends HttpFilter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -30,7 +30,7 @@ public class AdminFilter extends HttpFilter {
             ((HttpServletResponse) response).sendRedirect(request.getScheme() + "://"
                                                         + request.getServerName() + ":"
                                                         + request.getServerPort()
-                                                        + request.getServletContext().getContextPath() + "/signin.html");
+                                                        + request.getServletContext().getContextPath() + "/signin");
         }
     }
 }

@@ -6,10 +6,9 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class ChangeLanguageMenu implements Menu {
-
     private static final int ENGLISH_ID = 1;
     private static final int RUSSIAN_ID = 2;
-    private ResourceBundle rb;
+    private final ResourceBundle rb;
 
     {
         rb = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
@@ -21,14 +20,8 @@ public class ChangeLanguageMenu implements Menu {
         Scanner sc = new Scanner(System.in);
         int languageId = sc.nextInt();
         switch (languageId) {
-
-            case ENGLISH_ID:
-                Locale.setDefault(new Locale("en"));
-                break;
-
-            case RUSSIAN_ID:
-                Locale.setDefault(new Locale("ru"));
-                break;
+            case ENGLISH_ID -> Locale.setDefault(new Locale("en"));
+            case RUSSIAN_ID -> Locale.setDefault(new Locale("ru"));
         }
 
         new MainMenu().start();

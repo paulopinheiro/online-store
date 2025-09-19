@@ -7,7 +7,8 @@ import java.util.Random;
 
 public class DefaultAffiliateMarketingService implements AffiliateMarketingService {
     private static final int MAX_CHARS_IN_PARTNER_CODE = 6;
-    private UserDao userDao = new MySqlJdbcUserDao();
+
+    private final UserDao userDao = new MySqlJdbcUserDao();
 
     @Override
     public String generateUniquePartnerCode() {
@@ -29,5 +30,4 @@ public class DefaultAffiliateMarketingService implements AffiliateMarketingServi
             return sb.toString();
         }
     }
-    
 }

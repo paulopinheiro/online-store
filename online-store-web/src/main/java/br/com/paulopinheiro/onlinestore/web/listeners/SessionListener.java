@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpSessionListener;
 
 @WebListener
 public class SessionListener implements HttpSessionListener, HttpSessionAttributeListener {
-
     @Override
     public void sessionCreated(HttpSessionEvent se) {
         System.out.println("Session created");

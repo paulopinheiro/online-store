@@ -3,19 +3,18 @@ package br.com.paulopinheiro.onlinestore.core.menu.impl;
 import br.com.paulopinheiro.onlinestore.core.configs.ApplicationContext;
 import br.com.paulopinheiro.onlinestore.core.menu.Menu;
 import br.com.paulopinheiro.onlinestore.core.services.UserManagementService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultUserManagementService;
+import br.com.paulopinheiro.onlinestore.core.services.impl.MySqlUserManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class CustomerListMenu implements Menu {
-
-    private ApplicationContext context;
-    private UserManagementService userManagementService;
-    private ResourceBundle rb;
+    private final ApplicationContext context;
+    private final UserManagementService userManagementService;
+    private final ResourceBundle rb;
 
     {
-        userManagementService = DefaultUserManagementService.getInstance();
+        userManagementService = new MySqlUserManagementService();
         context = ApplicationContext.getInstance();
         rb = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
     }
@@ -25,7 +24,7 @@ public class CustomerListMenu implements Menu {
         printMenuHeader();
         List<User> users = userManagementService.getUsers();
 
-        if (users == null || users.size() == 0) {
+        if (users == null || users.isEmpty()) {
             System.out.println(rb.getString("no.users.msg"));
         } else {
             for (User user : users) {

@@ -1,6 +1,6 @@
 package br.com.paulopinheiro.onlinestore.persistence.utils.validation.impl;
 
-import br.com.paulopinheiro.onlinestore.persistence.onlinestore.annotations.Validate;
+import br.com.paulopinheiro.onlinestore.persistence.utils.validation.Validate;
 import br.com.paulopinheiro.onlinestore.persistence.utils.validation.Validator;
 import java.lang.reflect.Field;
 
@@ -17,8 +17,8 @@ public class DefaultValidator implements Validator {
                 Object fieldValue = null;
                 try {
                     fieldValue = field.get(obj);
-                } catch (IllegalArgumentException | IllegalAccessException e) {
-                    e.printStackTrace();
+                } catch (IllegalArgumentException | IllegalAccessException ex) {
+                    ex.printStackTrace();
                 }
                 if (fieldValue instanceof String) {
                     if (!((String) fieldValue).matches(pattern)) {

@@ -6,9 +6,8 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class ChangePasswordMenu implements Menu {
-
-    private ApplicationContext context;
-    private ResourceBundle rb;
+    private final ApplicationContext context;
+    private final ResourceBundle rb;
 
     {
         context = ApplicationContext.getInstance();

@@ -12,12 +12,11 @@ public class ApplicationContext {
     private Menu mainMenu;
     private Cart sessionCart;
 
-    private ApplicationContext() {
-    }
+    private ApplicationContext() {}
 
     public void setLoggedInUser(User user) {
         if (this.sessionCart != null) {
-            this.sessionCart.clear(); // we have to clear session cart when new user is logged in
+            this.sessionCart.clear();
         }
         this.loggedInUser = user;
     }

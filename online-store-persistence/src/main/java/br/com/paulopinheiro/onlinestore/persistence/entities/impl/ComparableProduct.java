@@ -7,6 +7,9 @@ public class ComparableProduct implements Product, Comparable<Product> {
     private String productName;
     private String categoryName;
     private double price;
+    private String imgName;
+    private String description;
+    private String guid;
 
     public ComparableProduct() {}
 
@@ -56,15 +59,38 @@ public class ComparableProduct implements Product, Comparable<Product> {
     public void setPrice(double price) {
         this.price = price;
     }
+    public String getImgName() {
+        return imgName;
+    }
 
-    @Override
-    public int compareTo(Product otherProduct) {
-        return this.id - otherProduct.getId();
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     @Override
     public String toString() {
         return "Product id=" + id + ", product name=" + productName
                 + ", category name=" + categoryName + ", price=" + price;
+    }
+
+    @Override
+    public int compareTo(Product otherProduct) {
+        return this.id - otherProduct.getId();
     }
 }

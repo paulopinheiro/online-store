@@ -3,7 +3,7 @@ package br.com.paulopinheiro.onlinestore.core.menu.impl;
 import br.com.paulopinheiro.onlinestore.core.configs.ApplicationContext;
 import br.com.paulopinheiro.onlinestore.core.menu.Menu;
 import br.com.paulopinheiro.onlinestore.core.services.ProductManagementService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultProductManagementService;
+import br.com.paulopinheiro.onlinestore.core.services.impl.MySqlProductManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Cart;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.Scanner;
 public class ProductCatalogMenu implements Menu {
 
     private static final String CHECKOUT_COMMAND = "checkout";
-    private ApplicationContext context;
-    private ProductManagementService productManagementService;
-    private ResourceBundle rb;
+    private final ApplicationContext context;
+    private final ProductManagementService productManagementService;
+    private final ResourceBundle rb;
 
     {
         context = ApplicationContext.getInstance();
-        productManagementService = DefaultProductManagementService.getInstance();
+        productManagementService = new MySqlProductManagementService();
         rb = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
     }
 

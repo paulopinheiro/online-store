@@ -3,15 +3,14 @@ package br.com.paulopinheiro.onlinestore.persistence.dao.impl;
 import br.com.paulopinheiro.onlinestore.persistence.dao.RoleDao;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.UserDto;
-import br.com.paulopinheiro.onlinestore.persistence.utils.db.DBUtils;
+import br.com.paulopinheiro.onlinestore.persistence.utils.DBUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MySqlJdbcUserDao implements UserDao {
-
-    private RoleDao roleDao;
+    private final RoleDao roleDao;
 
     {
         roleDao = new MySqlJdbcRoleDao();
@@ -19,7 +18,7 @@ public class MySqlJdbcUserDao implements UserDao {
 
     @Override
     public UserDto getUserById(int id) {
-        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user WHERE id = ?")) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM users WHERE id = ?")) {
 
             ps.setInt(1, id);
             try (var rs = ps.executeQuery()) {
@@ -45,7 +44,7 @@ public class MySqlJdbcUserDao implements UserDao {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user WHERE email = ?")) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM users WHERE email = ?")) {
 
             ps.setString(1, email);
             try (var rs = ps.executeQuery()) {
@@ -95,7 +94,7 @@ public class MySqlJdbcUserDao implements UserDao {
 
     @Override
     public List<UserDto> getUsers() {
-        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user"); var rs = ps.executeQuery()) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM users"); var rs = ps.executeQuery()) {
             List<UserDto> users = new ArrayList<>();
 
             while (rs.next()) {
@@ -120,7 +119,7 @@ public class MySqlJdbcUserDao implements UserDao {
 
     @Override
     public UserDto getUserByPartnerCode(String partnerCode) {
-        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user WHERE partner_code = ?")) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM users WHERE partner_code = ?")) {
             ps.setString(1, partnerCode);
             try (var rs = ps.executeQuery()) {
                 if (rs.next()) {
@@ -151,5 +150,69 @@ public class MySqlJdbcUserDao implements UserDao {
             e.printStackTrace();
         }
         return user;
+    }
+    @Override
+    public void updateUser(UserDto user) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("UPDATE user "
+                + "SET first_name = ?, "
+                + "last_name = ?, "
+                + "email = ?, "
+                + "fk_user_role = ?, "
+                + "money = ?, "
+                + "credit_card = ?, "
+                + "password = ?, "
+                + "partner_code = ?, "
+                + "referrer_user_id = ? "
+                + "WHERE id = ?")) {
+            ps.setString(1, user.getFirstName());
+            ps.setString(2, user.getLastName());
+            ps.setString(3, user.getEmail());
+            if (user.getRoleDto() != null && user.getRoleDto().getId() != null) {
+                ps.setInt(4, user.getRoleDto().getId());
+            } else if (user.getRoleDto() != null && !user.getRoleDto().getRoleName().isEmpty()) {
+                ps.setInt(4, roleDao.getRoleByRoleName(user.getRoleDto().getRoleName()).getId());
+            } else {
+                ps.setNull(4, java.sql.Types.NULL);
+            }
+            ps.setBigDecimal(5, user.getMoney());
+            ps.setString(6, user.getCreditCard());
+            ps.setString(7, user.getPassword());
+            ps.setString(8, user.getPartnerCode());
+
+            if (user.getReferrerUser() != null) {
+                ps.setInt(9, user.getReferrerUser().getId());
+            } else {
+                ps.setNull(9, java.sql.Types.NULL);
+            }
+
+            ps.setInt(10, user.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<UserDto> getReferralsByUserId(int id) {
+        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM user WHERE referrer_user_id = ?")) {
+
+            ps.setInt(1, id);
+
+            try (var rs = ps.executeQuery()) {
+                List<UserDto> users = new ArrayList<>();
+
+                while (rs.next()) {
+                    UserDto user = parseUserDtoFromResultSet(rs);
+                    users.add(user);
+                }
+
+                return users;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return null;
     }
 }

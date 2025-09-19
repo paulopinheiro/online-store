@@ -6,6 +6,7 @@ public class PurchaseDto {
     private Integer id;
     private UserDto userDto;
     private List<ProductDto> productDtos;
+    private PurchaseStatusDto purchaseStatusDto;
 
     public Integer getId() {
         return id;
@@ -29,5 +30,13 @@ public class PurchaseDto {
 
     public void setProductDtos(List<ProductDto> productDtos) {
         this.productDtos = productDtos;
+    }
+
+    public PurchaseStatusDto getPurchaseStatusDto() {
+        return purchaseStatusDto;
+    }
+
+    public void setPurchaseStatusDto(PurchaseStatusDto purchaseStatusDto) {
+        this.purchaseStatusDto = purchaseStatusDto;
     }
 }

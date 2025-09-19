@@ -2,19 +2,18 @@ package br.com.paulopinheiro.onlinestore.core.menu.impl;
 
 import br.com.paulopinheiro.onlinestore.core.configs.ApplicationContext;
 import br.com.paulopinheiro.onlinestore.core.menu.Menu;
-import br.com.paulopinheiro.onlinestore.core.services.OrderManagementService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultOrderManagementService;
-import br.com.paulopinheiro.onlinestore.persistence.entities.Order;
+import br.com.paulopinheiro.onlinestore.core.services.PurchaseManagementService;
+import br.com.paulopinheiro.onlinestore.core.services.impl.MySqlPurchaseManagementService;
+import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
 import java.util.List;
 
 public class MyOrdersMenu implements Menu {
-
-    private ApplicationContext context;
-    private OrderManagementService orderManagementService;
+    private final ApplicationContext context;
+    private final PurchaseManagementService purchaseManagementService;
 
     {
         context = ApplicationContext.getInstance();
-        orderManagementService = DefaultOrderManagementService.getInstance();
+        purchaseManagementService = new MySqlPurchaseManagementService();
     }
 
     @Override
@@ -32,14 +31,13 @@ public class MyOrdersMenu implements Menu {
     }
 
     private void printUserOrdersToConsole() {
-        List<Order> loggedInUserOrders = orderManagementService
-                .getOrdersByUserId(context.getLoggedInUser().getId());
-        if (loggedInUserOrders == null || loggedInUserOrders.size() == 0) {
+        List<Purchase> loggedInUserOrders = purchaseManagementService.getPurchasesByUserId(context.getLoggedInUser().getId());
+        if (loggedInUserOrders == null || loggedInUserOrders.isEmpty()) {
             System.out.println(
                     "Unfortunately, you don't have any orders yet. "
                     + "Navigate back to main menu to place a new order");
         } else {
-            for (Order order : loggedInUserOrders) {
+            for (Purchase order : loggedInUserOrders) {
                 System.out.println(order);
             }
         }

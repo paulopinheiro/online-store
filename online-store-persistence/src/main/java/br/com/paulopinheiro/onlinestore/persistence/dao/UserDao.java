@@ -9,4 +9,6 @@ public interface UserDao {
     UserDto getUserByEmail(String userEmail);
     UserDto getUserById(int id);
     UserDto getUserByPartnerCode(String partnerCode);
+    void updateUser(UserDto convertUserToUserDto);
+    List<UserDto> getReferralsByUserId(int id);
 }

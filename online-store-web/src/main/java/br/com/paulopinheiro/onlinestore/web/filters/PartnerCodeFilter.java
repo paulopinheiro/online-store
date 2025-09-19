@@ -10,7 +10,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebFilter(filterName = "PartnerCodeFilter", urlPatterns = {"/*"})
+@WebFilter(urlPatterns = {"/*"})
 public class PartnerCodeFilter extends HttpFilter {
     public static final String PARTNER_CODE_PARAMETER_NAME = "partner_code";
     public static final String PARTNER_CODE_COOKIE_NAME = "partner_code";

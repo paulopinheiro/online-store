@@ -7,10 +7,10 @@ import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class MainMenu implements Menu {
-
     public static final String MENU_COMMAND = "menu";
-    private ResourceBundle rb;
-    private ApplicationContext context;
+
+    private final ResourceBundle rb;
+    private final ApplicationContext context;
 
     {
         context = ApplicationContext.getInstance();
@@ -37,44 +37,49 @@ public class MainMenu implements Menu {
             } else {
                 int commandNumber = Integer.parseInt(userInput);
                 switch (commandNumber) {
-
-                    case 1:
+                    case 1 -> {
                         menuToNavigate = new SignUpMenu();
                         break mainLoop;
-                    case 2:
+                    }
+                    case 2 -> {
                         if (context.getLoggedInUser() == null) {
                             menuToNavigate = new SignInMenu();
                         } else {
                             menuToNavigate = new SignOutMenu();
                         }
                         break mainLoop;
-                    case 3:
+                    }
+                    case 3 -> {
                         menuToNavigate = new ProductCatalogMenu();
                         break mainLoop;
-                    case 4:
+                    }
+                    case 4 -> {
                         menuToNavigate = new MyOrdersMenu();
                         break mainLoop;
-                    case 5:
+                    }
+                    case 5 -> {
                         menuToNavigate = new SettingsMenu();
                         break mainLoop;
-                    case 6:
+                    }
+                    case 6 -> {
                         menuToNavigate = new CustomerListMenu();
                         break mainLoop;
-                    case 7:
+                    }
+                    case 7 -> {
                         menuToNavigate = new ResetPasswordMenu();
                         break mainLoop;
-                    case 8:
+                    }
+                    case 8 -> {
                         menuToNavigate = new ChangeLanguageMenu();
                         break mainLoop;
-                    default:
+                    }
+                    default -> {
                         System.out.println(rb.getString("err.msg"));
-                        continue; // continue endless loop
+                    }
                 }
             }
         }
-
         menuToNavigate.start();
-
     }
 
     @Override

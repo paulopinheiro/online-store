@@ -7,6 +7,9 @@ public class DefaultProduct implements Product {
     private String productName;
     private String categoryName;
     private double price;
+    private String imagName;
+    private String description;
+    private String guid;
 
     public DefaultProduct() {}
 
@@ -55,6 +58,30 @@ public class DefaultProduct implements Product {
     @Override
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getImagName() {
+        return imagName;
+    }
+
+    public void setImagName(String imagName) {
+        this.imagName = imagName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 
     @Override

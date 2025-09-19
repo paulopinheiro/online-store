@@ -7,6 +7,9 @@ public class ProductDto {
     private String productName;
     private BigDecimal price;
     private CategoryDto categoryDto;
+    private String imgName;
+    private String description;
+    private String guid;
 
     public Integer getId() {
         return id;
@@ -38,5 +41,29 @@ public class ProductDto {
 
     public void setCategoryDto(CategoryDto categoryDto) {
         this.categoryDto = categoryDto;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
     }
 }

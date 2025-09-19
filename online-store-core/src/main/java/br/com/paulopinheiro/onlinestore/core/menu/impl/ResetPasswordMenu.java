@@ -1,24 +1,19 @@
 package br.com.paulopinheiro.onlinestore.core.menu.impl;
 
 import br.com.paulopinheiro.onlinestore.core.menu.Menu;
-import br.com.paulopinheiro.onlinestore.core.services.ResetPasswordService;
 import br.com.paulopinheiro.onlinestore.core.services.UserManagementService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultResetPasswordService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultUserManagementService;
+import br.com.paulopinheiro.onlinestore.core.services.impl.MySqlUserManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 import java.util.concurrent.CompletableFuture;
 
 public class ResetPasswordMenu implements Menu {
-
-    private ResetPasswordService resetPasswordService;
-    private UserManagementService userManagementService;
-    private ResourceBundle rb;
+    private final UserManagementService userManagementService;
+    private final ResourceBundle rb;
 
     {
-        resetPasswordService = new DefaultResetPasswordService();
-        userManagementService = DefaultUserManagementService.getInstance();
+        userManagementService = new MySqlUserManagementService();
         rb = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
     }
 
@@ -30,7 +25,7 @@ public class ResetPasswordMenu implements Menu {
         System.out.println(rb.getString("pass.sent.to.email"));
         CompletableFuture.runAsync(() -> {
             User user = userManagementService.getUserByEmail(userInput);
-            resetPasswordService.resetPasswordForUser(user);
+            userManagementService.resetPasswordForUser(user);
         });
         new MainMenu().start();
     }

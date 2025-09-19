@@ -2,6 +2,7 @@ package br.com.paulopinheiro.onlinestore.persistence.dto;
 
 public class RoleDto {
     public static final String ADMIN_ROLE_NAME = "ROLE_ADMIN";
+    public static final String MANAGER_ROLE_NAME = "ROLE_MANAGER";
     public static final String CUSTOMER_ROLE_NAME = "ROLE_CUSTOMER";
 
     private Integer id;

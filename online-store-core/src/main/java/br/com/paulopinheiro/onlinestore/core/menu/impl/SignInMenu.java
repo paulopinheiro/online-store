@@ -3,20 +3,19 @@ package br.com.paulopinheiro.onlinestore.core.menu.impl;
 import br.com.paulopinheiro.onlinestore.core.configs.ApplicationContext;
 import br.com.paulopinheiro.onlinestore.core.menu.Menu;
 import br.com.paulopinheiro.onlinestore.core.services.UserManagementService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultUserManagementService;
+import br.com.paulopinheiro.onlinestore.core.services.impl.MySqlUserManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 public class SignInMenu implements Menu {
-
-    private ApplicationContext context;
-    private UserManagementService userManagementService;
-    private ResourceBundle rb;
+    private final ApplicationContext context;
+    private final UserManagementService userManagementService;
+    private final ResourceBundle rb;
 
     {
         context = ApplicationContext.getInstance();
-        userManagementService = DefaultUserManagementService.getInstance();
+        userManagementService = new MySqlUserManagementService();
         rb = ResourceBundle.getBundle(RESOURCE_BUNDLE_BASE_NAME);
     }
 

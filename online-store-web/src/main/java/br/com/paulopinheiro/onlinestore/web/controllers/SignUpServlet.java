@@ -1,7 +1,7 @@
 package br.com.paulopinheiro.onlinestore.web.controllers;
 
-import br.com.paulopinheiro.onlinestore.core.helpdesk.facades.UserFacade;
-import br.com.paulopinheiro.onlinestore.core.helpdesk.facades.impl.DefaultUserFacade;
+import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
+import br.com.paulopinheiro.onlinestore.core.facades.impl.DefaultUserFacade;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultUser;
 import static br.com.paulopinheiro.onlinestore.web.filters.PartnerCodeFilter.PARTNER_CODE_COOKIE_NAME;

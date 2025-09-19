@@ -5,9 +5,8 @@ import br.com.paulopinheiro.onlinestore.core.menu.Menu;
 import java.util.ResourceBundle;
 
 public class SignOutMenu implements Menu {
-
-    private ApplicationContext context;
-    private ResourceBundle rb;
+    private final ApplicationContext context;
+    private final ResourceBundle rb;
 
     {
         context = ApplicationContext.getInstance();

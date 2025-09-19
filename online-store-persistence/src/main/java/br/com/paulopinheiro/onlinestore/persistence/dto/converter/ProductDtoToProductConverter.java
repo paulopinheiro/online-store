@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDtoToProductConverter {
-    private CategoryDtoToCategoryConverter categoryConverter;
+    private final CategoryDtoToCategoryConverter categoryConverter;
     {
         categoryConverter = new CategoryDtoToCategoryConverter();
     }
