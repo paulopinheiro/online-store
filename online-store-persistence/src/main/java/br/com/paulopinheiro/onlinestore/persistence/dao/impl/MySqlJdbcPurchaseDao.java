@@ -85,24 +85,14 @@ public class MySqlJdbcPurchaseDao implements PurchaseDao {
 
     @Override
     public List<PurchaseDto> getPurchases() {
-        try (var conn = DBUtils.getConnection(); var ps = conn.prepareStatement("SELECT * FROM purchase")) {
+        try (var conn = DBUtils.getConnection();
+             var ps = conn.prepareStatement("SELECT * FROM purchase")) {
 
             List<PurchaseDto> purchases = new ArrayList<>();
 
             try (var rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    PurchaseDto purchase = new PurchaseDto();
-                    purchase.setId(rs.getInt("id"));
-                    purchase.setUserDto(userDao.getUserById(rs.getInt("fk_purchase_user")));
-
-                    List<ProductDto> products = new ArrayList<>();
-                    try (var psProducts = conn.prepareStatement("SELECT * FROM purchase_product WHERE purchase_id = " + purchase.getId()); var rsProducts = psProducts.executeQuery()) {
-
-                        while (rs.next()) {
-                            products.add(productDao.getProductById(rs.getInt("product_id")));
-                        }
-                    }
-                    purchase.setProductDtos(products);
+                    PurchaseDto purchase = populatePurchaseDto(conn,rs);
                     purchases.add(purchase);
                 }
             }
@@ -116,11 +106,14 @@ public class MySqlJdbcPurchaseDao implements PurchaseDao {
 
     private PurchaseDto populatePurchaseDto(Connection conn, ResultSet rs) throws SQLException {
         PurchaseDto purchase = new PurchaseDto();
+
         purchase.setId(rs.getInt("id"));
         purchase.setUserDto(userDao.getUserById(rs.getInt("fk_purchase_user")));
 
         List<ProductDto> products = new ArrayList<>();
-        try (var psProducts = conn.prepareStatement("SELECT * FROM purchase_product WHERE purchase_id = " + purchase.getId()); var rsProducts = psProducts.executeQuery()) {
+
+        try (var psProducts = conn.prepareStatement("SELECT * FROM purchase_product WHERE purchase_id = " + purchase.getId());
+             var rsProducts = psProducts.executeQuery()) {
 
             while (rsProducts.next()) {
                 products.add(productDao.getProductById(rsProducts.getInt("product_id")));
@@ -128,6 +121,7 @@ public class MySqlJdbcPurchaseDao implements PurchaseDao {
         }
         purchase.setProductDtos(products);
         purchase.setPurchaseStatusDto(purchaseStatusDao.getPurchaseStatusById(rs.getInt("fk_purchase_purchase_status")));
+
         return purchase;
     }
 

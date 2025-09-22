@@ -13,6 +13,7 @@ public class DbcpDemo {
         ds.setUrl("jdbc:derby://localhost:1527/learn_it_db");
         ds.setUsername("app");
         ds.setPassword("app");
+        ds.setDefaultCatalog("APP");
         ds.setMinIdle(3);
         ds.setTimeBetweenEvictionRunsMillis(1000);
         ds.setMaxIdle(20);

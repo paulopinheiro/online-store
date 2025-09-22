@@ -11,4 +11,8 @@ public interface Product extends Serializable {
     void setCategoryName(String categoryName);
     double getPrice();
     void setPrice(double price);
+    String getImgName();
+    void setImgName(String imgName);
+    String getDescription();
+    void setDescription(String description);
 }

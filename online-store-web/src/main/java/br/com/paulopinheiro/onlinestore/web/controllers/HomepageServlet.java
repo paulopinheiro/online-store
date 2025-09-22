@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "HomepageServlet", urlPatterns = {"/homepage"})
 public class HomepageServlet extends HttpServlet {
-    private CategoryFacade categoryFacade = DefaultCategoryFacade.getInstance();
+    private final CategoryFacade categoryFacade = DefaultCategoryFacade.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)

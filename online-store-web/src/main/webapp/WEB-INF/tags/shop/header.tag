@@ -1,5 +1,4 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@tag description="put the tag description here" pageEncoding="UTF-8"%>
 
 <fmt:setLocale value="${locale}" />
 <fmt:setBundle basename="OnlineShopResourceBundle" var="rb" />

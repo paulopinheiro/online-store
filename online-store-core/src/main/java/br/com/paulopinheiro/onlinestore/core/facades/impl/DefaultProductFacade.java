@@ -2,7 +2,7 @@ package br.com.paulopinheiro.onlinestore.core.facades.impl;
 
 import br.com.paulopinheiro.onlinestore.core.facades.ProductFacade;
 import br.com.paulopinheiro.onlinestore.persistence.dao.ProductDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcProductDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.DerbyJdbcProductDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.ProductDtoToProductConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
 public class DefaultProductFacade implements ProductFacade {
     private static DefaultProductFacade instance;
 
-    private final ProductDao productDao = new MySqlJdbcProductDao();
+    private final ProductDao productDao = new DerbyJdbcProductDao();
     private final ProductDtoToProductConverter productConverter = new ProductDtoToProductConverter();
 
     public static synchronized DefaultProductFacade getInstance() {
