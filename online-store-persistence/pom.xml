@@ -12,4 +12,12 @@
   <groupId>br.com.paulopinheiro</groupId>
   <artifactId>online-store-persistence</artifactId>
   <version>#{project.version}</version>
+    <dependencies>
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+            <type>jar</type>
+        </dependency>
+    </dependencies>
 </project>

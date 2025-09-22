@@ -1,23 +1,17 @@
 package br.com.paulopinheiro.onlinestore.persistence.utils;
 
+import br.com.paulopinheiro.onlinestore.persistence.utils.connectionpools.DbcpDemo;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBUtils {
-    private static final String JDBC_JAVADB_HOST = "jdbc:derby://localhost:1527/";
-    private static final String DB_NAME = "learn_it_db";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "root";
-
     private DBUtils() {}
 	
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(JDBC_JAVADB_HOST + DB_NAME, USERNAME, PASSWORD);
+            return DbcpDemo.getConnection();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-
 }
