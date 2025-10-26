@@ -2,13 +2,13 @@ package br.com.paulopinheiro.onlinestore.core.services.impl;
 
 import br.com.paulopinheiro.onlinestore.core.services.AffiliateMarketingService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcUserDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaUserDao;
 import java.util.Random;
 
 public class DefaultAffiliateMarketingService implements AffiliateMarketingService {
     private static final int MAX_CHARS_IN_PARTNER_CODE = 6;
 
-    private final UserDao userDao = new MySqlJdbcUserDao();
+    private final UserDao userDao = new JpaUserDao();
 
     @Override
     public String generateUniquePartnerCode() {

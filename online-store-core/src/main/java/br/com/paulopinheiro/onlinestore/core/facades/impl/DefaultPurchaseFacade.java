@@ -3,11 +3,11 @@ package br.com.paulopinheiro.onlinestore.core.facades.impl;
 import br.com.paulopinheiro.onlinestore.core.CoreConfigurations;
 import br.com.paulopinheiro.onlinestore.core.facades.PurchaseFacade;
 import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcPurchaseDao;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import br.com.paulopinheiro.onlinestore.persistence.dao.PurchaseDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaPurchaseDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.PurchaseDtoToPurchaseConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.PurchaseStatus;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultPurchase;
@@ -19,7 +19,7 @@ import java.util.List;
 public class DefaultPurchaseFacade implements PurchaseFacade {
     private static DefaultPurchaseFacade instance;
 
-    private final PurchaseDao purchaseDao = new MySqlJdbcPurchaseDao();
+    private final PurchaseDao purchaseDao = new JpaPurchaseDao();
     private final PurchaseDtoToPurchaseConverter purchaseConverter = new PurchaseDtoToPurchaseConverter();
     private final UserFacade userFacade = DefaultUserFacade.getInstance();
 

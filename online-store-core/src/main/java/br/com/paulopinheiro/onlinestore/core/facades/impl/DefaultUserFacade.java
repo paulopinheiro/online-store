@@ -4,7 +4,7 @@ import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
 import br.com.paulopinheiro.onlinestore.core.services.AffiliateMarketingService;
 import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultAffiliateMarketingService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcUserDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaUserDao;
 import static br.com.paulopinheiro.onlinestore.persistence.dto.RoleDto.CUSTOMER_ROLE_NAME;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.UserDtoToUserConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
@@ -13,7 +13,7 @@ import java.util.List;
 public class DefaultUserFacade implements UserFacade {
     private static DefaultUserFacade instance;
 
-    private final UserDao userDao = new MySqlJdbcUserDao();
+    private final UserDao userDao = new JpaUserDao();
     private final UserDtoToUserConverter userConverter = new UserDtoToUserConverter();
     private final AffiliateMarketingService marketingService = new DefaultAffiliateMarketingService();
 

@@ -13,7 +13,7 @@ public class MySqlJdbcUserDao implements UserDao {
     private final RoleDao roleDao;
 
     {
-        roleDao = new MySqlJdbcRoleDao();
+        roleDao = new JpaRoleDao();
     }
 
     @Override

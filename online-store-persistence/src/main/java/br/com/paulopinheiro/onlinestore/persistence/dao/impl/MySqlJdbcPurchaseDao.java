@@ -17,11 +17,11 @@ import java.util.List;
 public class MySqlJdbcPurchaseDao implements PurchaseDao {
     private final UserDao userDao;
     private final ProductDao productDao;
-    private final PurchaseStatusDao purchaseStatusDao = new MySqlJdbcPurchaseStatusDao();
+    private final PurchaseStatusDao purchaseStatusDao = new JpaPurchaseStatusDao();
 
     {
-        userDao = new MySqlJdbcUserDao();
-        productDao = new MySqlJdbcProductDao();
+        userDao = new JpaUserDao();
+        productDao = new JpaProductDao();
     }
 
     @Override

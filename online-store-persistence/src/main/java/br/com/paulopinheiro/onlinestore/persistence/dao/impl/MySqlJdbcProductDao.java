@@ -14,7 +14,7 @@ public class MySqlJdbcProductDao implements ProductDao {
     private final CategoryDao categoryDao;
 
     {
-        categoryDao = new MySqlJdbcCategoryDao();
+        categoryDao = new JpaCategoryDao();
     }
 
     @Override

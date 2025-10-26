@@ -1,17 +1,39 @@
 package br.com.paulopinheiro.onlinestore.persistence.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-public class UserDto {
+@Entity(name="users")
+public class UserDto implements Serializable {
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
+    @Column(name="first_name")
     private String firstName;
+    @Column(name="last_name")
     private String lastName;
+    @Column
     private String email;
+    @ManyToOne
+    @JoinColumn(name="fk_user_role",unique=true)
     private RoleDto roleDto;
+    @Column
     private BigDecimal money;
+    @Column(name="credit_card")
     private String creditCard;
+    @Column
     private String password;
+    @Column(name="partner_code",unique=true)
     private String partnerCode;
+    @ManyToOne
+    @JoinColumn(name="referrer_user_id")
     private UserDto referrerUser;
 
     public Integer getId() {

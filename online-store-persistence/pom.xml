@@ -16,8 +16,25 @@
         <dependency>
             <groupId>commons-dbcp</groupId>
             <artifactId>commons-dbcp</artifactId>
-            <version>1.4</version>
+            <version>1.2.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>3.0.2</version>
+        </dependency>
     </dependencies>
+    <description>As we are using TomEE connection pool definitition we have
+to put these lines on tomee.xml:
+    &lt;Resource id="jdbc/learn_it_db" type="DataSource"&gt;
+        JdbcDriver org.apache.derby.client.ClientAutoloadedDriver
+        JdbcUrl jdbc:derby://localhost:1527/learn_it_db
+        UserName app
+        Password app
+        JtaManaged  false
+    &lt;/Resource&gt;
+
+JtaManaged must be false because this application manages
+the transactions.</description>
 </project>

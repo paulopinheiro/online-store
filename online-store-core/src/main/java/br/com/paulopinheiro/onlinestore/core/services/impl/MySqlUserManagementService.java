@@ -2,10 +2,10 @@ package br.com.paulopinheiro.onlinestore.core.services.impl;
 
 import br.com.paulopinheiro.onlinestore.core.services.UserManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcUserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.UserDtoToUserConverter;
 import br.com.paulopinheiro.onlinestore.core.mail.MailSender;
 import br.com.paulopinheiro.onlinestore.core.mail.impl.DefaultMailSender;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaUserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.UserDto;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import java.util.List;
@@ -19,7 +19,7 @@ public class MySqlUserManagementService implements UserManagementService {
     private final MailSender mailSender;
 
     {
-        userDao = new MySqlJdbcUserDao();
+        userDao = new JpaUserDao();
         userConverter = new UserDtoToUserConverter();
         mailSender = DefaultMailSender.getInstance();
     }

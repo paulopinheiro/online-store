@@ -2,7 +2,7 @@ package br.com.paulopinheiro.onlinestore.core.services.impl;
 
 import br.com.paulopinheiro.onlinestore.core.services.ProductManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.ProductDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcProductDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaProductDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.ProductDto;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.ProductDtoToProductConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
@@ -13,7 +13,7 @@ public class MySqlProductManagementService implements ProductManagementService {
     private final ProductDtoToProductConverter productConverter;
 
     {
-        productDao = new MySqlJdbcProductDao();
+        productDao = new JpaProductDao();
         productConverter = new ProductDtoToProductConverter();
     }
 

@@ -6,6 +6,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>17</maven.compiler.release>
     <project.version>1.0</project.version>
+    <jakartaee>10.0.0</jakartaee>
   </properties>
 
   <groupId>br.com.paulopinheiro</groupId>
@@ -20,6 +21,12 @@
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.12.2</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>jakarta.platform</groupId>
+        <artifactId>jakarta.jakartaee-api</artifactId>
+        <version>${jakartaee}</version>
+        <scope>provided</scope>
     </dependency>
   </dependencies>
 

@@ -2,7 +2,7 @@ package br.com.paulopinheiro.onlinestore.core.services.impl;
 
 import br.com.paulopinheiro.onlinestore.core.services.PurchaseManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.PurchaseDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.MySqlJdbcPurchaseDao;
+import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaPurchaseDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.PurchaseDto;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.PurchaseDtoToPurchaseConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
@@ -13,7 +13,7 @@ public class MySqlPurchaseManagementService implements PurchaseManagementService
     private final PurchaseDtoToPurchaseConverter purchaseConverter;
 
     {
-        purchaseDao = new MySqlJdbcPurchaseDao();
+        purchaseDao = new JpaPurchaseDao();
         purchaseConverter = new PurchaseDtoToPurchaseConverter();
     }
 

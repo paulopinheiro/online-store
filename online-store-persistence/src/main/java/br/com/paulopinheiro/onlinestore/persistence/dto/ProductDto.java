@@ -1,14 +1,33 @@
 package br.com.paulopinheiro.onlinestore.persistence.dto;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
-public class ProductDto {
+@Entity(name="product")
+public class ProductDto implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @Column(name="product_name")
     private String productName;
+    @Column
     private BigDecimal price;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     private CategoryDto categoryDto;
+    @Column(name="img_name")
     private String imgName;
+    @Column
     private String description;
+    @Column
     private String guid;
 
     public Integer getId() {

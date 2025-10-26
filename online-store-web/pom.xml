@@ -23,6 +23,16 @@
             <groupId>br.com.paulopinheiro</groupId>
             <artifactId>online-store-core</artifactId>
             <version>#{project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -30,13 +40,13 @@
             <version>4.13.1</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
+<!--        <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>6.0.0</version>
             <scope>provided</scope>
             <type>jar</type>
-        </dependency>
+        </dependency>-->
     </dependencies>
 
     <build>
