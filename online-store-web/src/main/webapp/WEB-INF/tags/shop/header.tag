@@ -1,7 +1,5 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<fmt:setLocale value="${locale}" />
-<fmt:setBundle basename="OnlineShopResourceBundle" var="rb" />
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <header id="header" class="top-head">
     <nav class="navbar navbar-default">
@@ -22,7 +20,7 @@
                     </div>
                     <form class="navbar-form navbar-left web-sh" action="search" method="GET">
                         <div class="form">
-                            <fmt:message key='search.placeholder' bundle='${rb}' var="searchPlaceholder" />
+                            <spring:message code='search.placeholder' var="searchPlaceholder" />
                             <input type="text" class="form-control" name="searchQuery" placeholder="${searchPlaceholder}" />
                             <input type="hidden" name="page" value="1" />
                         </div>
@@ -33,13 +31,13 @@
                         <div class="login-sr">
                             <div class="login-signup">
                                 <ul>
-                                    <c:if test="${loggedInUser !=null}">
-                                        <li><a href="my-profile"><fmt:message key="welcome.lbl" bundle="${rb}" />${loggedInUser.firstName}</a></li>
-                                        <li><a class="custom-b" href="signout"><fmt:message key="signout.btn" bundle="${rb}" /></a></li>
+                                    <c:if test="${not empty loggedInUser}">
+                                        <li><a href="my-profile"><spring:message code="welcome.lbl"/> ${loggedInUser.firstName}</a></li>
+                                        <li><a class="custom-b" href="signout"><spring:message code="signout.btn"/></a></li>
                                     </c:if>
-                                    <c:if test="${loggedInUser==null}">
-                                        <li><a href="signin"><fmt:message key="signin.btn" bundle="${rb}" /></a></li>
-                                        <li><a class="custom-b" href="signup"><fmt:message key="signup.btn" bundle="${rb}" /></a></li>
+                                    <c:if test="${empty loggedInUser}">
+                                        <li><a href="signin"><spring:message code="signin.btn"/></a></li>
+                                        <li><a class="custom-b" href="signup"><spring:message code="signup.btn"/></a></li>
                                     </c:if>
                                 </ul>
                             </div>
@@ -49,19 +47,12 @@
                                 <ul>
                                     <li>
                                         <a data-toggle="modal" data-target="#myModal" href="#">
-                                            <span><fmt:message key="change.lang.lbl" bundle="${rb}" /></span>
-                                            <c:choose>
-                                                <c:when test="${locale == 'fr'}">
-                                                    <img src="images/flag-fr.png" alt="" />
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="images/flag.png" alt="" />
-                                                </c:otherwise>
-                                            </c:choose>
+                                            <span><spring:message code="change.lang.lbl"/></span>
+                                            
                                         </a>
                                     </li>
                                     <c:if test="${not empty loggedInUser}">
-                                        <li><a href="my-profile"><fmt:message key="my.profile.lbl" bundle="${rb}" /></a></li>
+                                        <li><a href="my-profile"><spring:message code="my.profile.lbl"/></a></li>
                                     </c:if>
                                 </ul>
                             </div>

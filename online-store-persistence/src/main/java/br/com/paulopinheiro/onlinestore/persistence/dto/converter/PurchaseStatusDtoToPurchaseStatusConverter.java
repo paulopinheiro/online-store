@@ -3,7 +3,9 @@ package br.com.paulopinheiro.onlinestore.persistence.dto.converter;
 import br.com.paulopinheiro.onlinestore.persistence.dto.PurchaseStatusDto;
 import br.com.paulopinheiro.onlinestore.persistence.entities.PurchaseStatus;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultPurchaseStatus;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PurchaseStatusDtoToPurchaseStatusConverter {
     	public PurchaseStatus convertPurchaseStatusDtoToPurchaseStatus(PurchaseStatusDto purchaseStatusDto) {
 		PurchaseStatus purchaseStatus = new DefaultPurchaseStatus();

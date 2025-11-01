@@ -5,17 +5,14 @@ import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultPurchase;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PurchaseDtoToPurchaseConverter {
-
-    private final ProductDtoToProductConverter productConverter;
-    private final UserDtoToUserConverter userConverter;
-    private final PurchaseStatusDtoToPurchaseStatusConverter purchaseStatusConverter = new PurchaseStatusDtoToPurchaseStatusConverter();
-
-    {
-        productConverter = new ProductDtoToProductConverter();
-        userConverter = new UserDtoToUserConverter();
-    }
+    @Autowired private ProductDtoToProductConverter productConverter;
+    @Autowired private UserDtoToUserConverter userConverter;
+    @Autowired private PurchaseStatusDtoToPurchaseStatusConverter purchaseStatusConverter;
 
     public Purchase convertPurchaseDtoToPurchase(PurchaseDto purchaseDto) {
         Purchase purchase = new DefaultPurchase();

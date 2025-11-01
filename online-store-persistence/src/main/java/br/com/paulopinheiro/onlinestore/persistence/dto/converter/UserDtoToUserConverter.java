@@ -6,9 +6,13 @@ import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultUser;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserDtoToUserConverter {
-    private RoleDtoToRoleConverter roleConverter;
+    @Autowired private RoleDtoToRoleConverter roleConverter;
 
     public UserDto convertUserIdToUserDtoWithOnlyId(int customerId) {
         UserDto userDto = new UserDto();
@@ -28,11 +32,13 @@ public class UserDtoToUserConverter {
         user.setId(userDto.getId());
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
-        if (userDto.getRoleDto() != null) {
-            user.setRoleName(userDto.getRoleDto().getRoleName());
-        }
-        user.setMoney(userDto.getMoney().doubleValue());
+        user.setRoles(roleConverter.convertRoleDtosToRoles(userDto.getRoles()));
+        if (Optional.ofNullable(userDto.getMoney()).isPresent())
+            user.setMoney(userDto.getMoney().doubleValue());
         user.setCreditCard(userDto.getCreditCard());
+        user.setPartnerCode(userDto.getPartnerCode());
+        user.setReferrerUser(convertUserDtoToUser(userDto.getReferrerUser()));
+        user.setEnabled(userDto.isEnabled());
 
         return user;
     }
@@ -44,9 +50,11 @@ public class UserDtoToUserConverter {
         userDto.setFirstName(user.getFirstName());
         userDto.setLastName(user.getLastName());
         userDto.setPassword(user.getPassword());
-        userDto.setRoleDto(roleConverter.convertRoleNameToRoleDtoWithOnlyRoleName(user.getRoleName()));
+        userDto.setRoles(roleConverter.convertRolesToRoleDtos(user.getRoles()));
         userDto.setMoney(BigDecimal.valueOf(user.getMoney()));
         userDto.setCreditCard(user.getCreditCard());
+        userDto.setPartnerCode(user.getPartnerCode());
+        userDto.setEnabled(user.isEnabled());
 
         return userDto;
     }
@@ -58,5 +66,13 @@ public class UserDtoToUserConverter {
             users.add(convertUserDtoToUser(userDto));
         }
         return users;
+    }
+
+    public List<UserDto> convertUsersToUserDtos(List<User> users) {
+        List<UserDto> userDtos = new ArrayList<>();
+
+        for (User user: users) userDtos.add(convertUserToUserDto(user));
+
+        return userDtos;
     }
 }

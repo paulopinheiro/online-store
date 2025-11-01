@@ -2,21 +2,16 @@ package br.com.paulopinheiro.onlinestore.core.facades.impl;
 
 import br.com.paulopinheiro.onlinestore.core.facades.ProductFacade;
 import br.com.paulopinheiro.onlinestore.persistence.dao.ProductDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaProductDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.ProductDtoToProductConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultProductFacade implements ProductFacade {
-    private static DefaultProductFacade instance;
-
-    private final ProductDao productDao = new JpaProductDao();
-    private final ProductDtoToProductConverter productConverter = new ProductDtoToProductConverter();
-
-    public static synchronized DefaultProductFacade getInstance() {
-        if (instance == null) instance = new DefaultProductFacade();
-        return instance;
-    }
+    @Autowired private ProductDao productDao;
+    @Autowired private ProductDtoToProductConverter productConverter;
 
     @Override
     public List<Product> getProductsLikeName(String searchQuery) {

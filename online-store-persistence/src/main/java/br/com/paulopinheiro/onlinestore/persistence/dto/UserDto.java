@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
 
 @Entity(name="users")
 public class UserDto implements Serializable {
@@ -21,9 +25,6 @@ public class UserDto implements Serializable {
     private String lastName;
     @Column
     private String email;
-    @ManyToOne
-    @JoinColumn(name="fk_user_role",unique=true)
-    private RoleDto roleDto;
     @Column
     private BigDecimal money;
     @Column(name="credit_card")
@@ -35,6 +36,14 @@ public class UserDto implements Serializable {
     @ManyToOne
     @JoinColumn(name="referrer_user_id")
     private UserDto referrerUser;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="users_roles",
+               joinColumns = @JoinColumn(name="user_id", referencedColumnName="id"),
+               inverseJoinColumns = @JoinColumn(name="role_id",referencedColumnName="id")
+              )
+    private List<RoleDto> roles;
+    @Column(name="enabled")
+    private boolean enabled;
 
     public Integer getId() {
         return id;
@@ -66,14 +75,6 @@ public class UserDto implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public RoleDto getRoleDto() {
-        return roleDto;
-    }
-
-    public void setRoleDto(RoleDto roleDto) {
-        this.roleDto = roleDto;
     }
 
     public BigDecimal getMoney() {
@@ -114,5 +115,21 @@ public class UserDto implements Serializable {
 
     public void setReferrerUser(UserDto referrerUser) {
         this.referrerUser = referrerUser;
+    }
+
+    public List<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleDto> roles) {
+        this.roles = roles;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }

@@ -5,7 +5,9 @@ import br.com.paulopinheiro.onlinestore.persistence.entities.Category;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultCategory;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Service;
 
+@Service
 public class CategoryDtoToCategoryConverter {
     public CategoryDto convertCategoryNameToCategoryDtoWithOnlyName(String categoryName) {
         CategoryDto categoryDto = new CategoryDto();

@@ -3,7 +3,9 @@ package br.com.paulopinheiro.onlinestore.persistence.dao.impl;
 import br.com.paulopinheiro.onlinestore.persistence.dao.PurchaseStatusDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.PurchaseStatusDto;
 import jakarta.persistence.Persistence;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JpaPurchaseStatusDao implements PurchaseStatusDao {
     @Override
     public PurchaseStatusDto getPurchaseStatusById(Integer id) {

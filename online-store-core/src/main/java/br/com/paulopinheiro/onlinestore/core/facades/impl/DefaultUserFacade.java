@@ -2,34 +2,31 @@ package br.com.paulopinheiro.onlinestore.core.facades.impl;
 
 import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
 import br.com.paulopinheiro.onlinestore.core.services.AffiliateMarketingService;
-import br.com.paulopinheiro.onlinestore.core.services.impl.DefaultAffiliateMarketingService;
+import br.com.paulopinheiro.onlinestore.persistence.SetupDataLoader;
+import br.com.paulopinheiro.onlinestore.persistence.dao.RoleDao;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaUserDao;
-import static br.com.paulopinheiro.onlinestore.persistence.dto.RoleDto.CUSTOMER_ROLE_NAME;
+import br.com.paulopinheiro.onlinestore.persistence.dto.converter.RoleDtoToRoleConverter;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.UserDtoToUserConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
+import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultUserFacade implements UserFacade {
-    private static DefaultUserFacade instance;
-
-    private final UserDao userDao = new JpaUserDao();
-    private final UserDtoToUserConverter userConverter = new UserDtoToUserConverter();
-    private final AffiliateMarketingService marketingService = new DefaultAffiliateMarketingService();
-
-    public static synchronized DefaultUserFacade getInstance() {
-        if (instance == null) {
-            instance = new DefaultUserFacade();
-        }
-
-        return instance;
-    }
+    @Autowired private UserDao userDao;
+    @Autowired private RoleDao roleDao;
+    @Autowired private UserDtoToUserConverter userConverter;
+    @Autowired private RoleDtoToRoleConverter roleConverter;
+    @Autowired private AffiliateMarketingService marketingService;
 
     @Override
     public void registerUser(User user, String referrerCode) {
-        user.setRoleName(CUSTOMER_ROLE_NAME);
         user.setPartnerCode(marketingService.generateUniquePartnerCode());
         user.setReferrerUser(userConverter.convertUserDtoToUser(userDao.getUserByPartnerCode(referrerCode)));
+        System.out.println(roleDao.getRoleByRoleName(SetupDataLoader.ROLE_CUSTOMER));
+        user.setRoles(roleConverter.convertRoleDtosToRoles(Arrays.asList(roleDao.getRoleByRoleName(SetupDataLoader.ROLE_CUSTOMER))));
         userDao.saveUser(userConverter.convertUserToUserDto(user));
     }
 

@@ -6,7 +6,9 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JpaProductDao implements ProductDao {
     @Override
     public List<ProductDto> getProducts() {

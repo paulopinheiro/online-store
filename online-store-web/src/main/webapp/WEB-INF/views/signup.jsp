@@ -1,5 +1,7 @@
 <%@taglib prefix="shop" tagdir="/WEB-INF/tags/shop" %>
+<%@taglib prefix ="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
+
 <html lang="en">
     <head>
         <title>Sign Up</title>
@@ -14,35 +16,38 @@
         <div class="limiter">
             <div class="container-login100">
                 <div class="wrap-login100">
-                    <form class="login100-form validate-form" action="signup" method="POST">
+                    <form:form class="login100-form validate-form" action="signup" modelAttribute="user" method="POST">
                         <span class="login100-form-title p-b-26">Registration</span>
 
                         <div class="wrap-input100 validate-input" data-validate = "Enter First Name">
-                            <input class="input100 has-val" type="text" name="firstName">
+                            <form:input class="input100 has-val" path="firstName" />
                             <span class="focus-input100" data-placeholder="First Name"></span>
+                            <form:errors path="firstName" cssClass="error" />
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate = "Enter Last Name">
-                            <input class="input100 has-val" type="text" name="lastName">
+                            <form:input class="input100 has-val" path="lastName" />
                             <span class="focus-input100" data-placeholder="Last Name"></span>
+                            <form:errors path="lastName" cssClass="error" />
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate = "Valid email is: a@b.c">
-                            <input class="input100 has-val" type="email" name="email">
+                            <form:input class="input100 has-val" path="email" />
                             <span class="focus-input100" data-placeholder="Email"></span>
+                            <form:errors path="email" cssClass="error" />
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate="Enter password">
                             <span class="btn-show-pass">
                                 <i class="zmdi zmdi-eye"></i>
                             </span>
-                            <input class="input100 has-val" type="password" name="password">
+                            <form:password class="input100 has-val" path="password" />
                             <span class="focus-input100" data-placeholder="Password"></span>
                         </div>
 
                         <div class="wrap-input100 validate-input" data-validate="Repeat password">
                             <span class="btn-show-pass"><i class="zmdi zmdi-eye"></i></span>
-                            <input class="input100 has-val" type="password" name="repeatPassword">
+                            <form:password class="input100 has-val" path="repeatPassword" />
                             <span class="focus-input100" data-placeholder="Repeat Password"></span>
                         </div>
 
@@ -66,7 +71,7 @@
 
                             <a class="txt2" href="signin">Sign In</a>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

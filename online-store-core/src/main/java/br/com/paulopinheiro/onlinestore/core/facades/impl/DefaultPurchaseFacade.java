@@ -1,13 +1,11 @@
 package br.com.paulopinheiro.onlinestore.core.facades.impl;
 
-import br.com.paulopinheiro.onlinestore.core.CoreConfigurations;
 import br.com.paulopinheiro.onlinestore.core.facades.PurchaseFacade;
 import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Product;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import br.com.paulopinheiro.onlinestore.persistence.dao.PurchaseDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaPurchaseDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.PurchaseDtoToPurchaseConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.PurchaseStatus;
 import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultPurchase;
@@ -15,18 +13,16 @@ import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultPurchas
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultPurchaseFacade implements PurchaseFacade {
-    private static DefaultPurchaseFacade instance;
-
-    private final PurchaseDao purchaseDao = new JpaPurchaseDao();
-    private final PurchaseDtoToPurchaseConverter purchaseConverter = new PurchaseDtoToPurchaseConverter();
-    private final UserFacade userFacade = DefaultUserFacade.getInstance();
-
-    public static synchronized DefaultPurchaseFacade getInstance() {
-        if (instance==null) instance = new DefaultPurchaseFacade();
-        return instance;
-    }
+    @Autowired private PurchaseDao purchaseDao;
+    @Autowired private PurchaseDtoToPurchaseConverter purchaseConverter;
+    @Autowired private UserFacade userFacade;
+    @Value("${referrer.reward.rate}") private Double reffererRewardRate;
 
     @Override
     public void createPurchase(User user, Product product) {
@@ -42,7 +38,7 @@ public class DefaultPurchaseFacade implements PurchaseFacade {
     }
 
     @Override
-    public List<Purchase> getNotCompletePurchases() {
+    public List<Purchase> getNotCompletedPurchases() {
         return purchaseConverter.convertPurchaseDtosToPurchases(purchaseDao.getNotCompletedPurchases(LAST_STATUS_OF_ORDER_FULFILMENT_ID));
     }
 
@@ -58,7 +54,7 @@ public class DefaultPurchaseFacade implements PurchaseFacade {
 
         if (LAST_STATUS_OF_ORDER_FULFILMENT_ID.equals(newPurchaseStatusId) && purchase.getCustomer().getReferrerUser() != null) {
             User referrerUser = purchase.getCustomer().getReferrerUser();
-            double shareFromPurchase = purchase.getTotalPurchaseCost() * CoreConfigurations.REFERRER_REWARD_RATE;
+            double shareFromPurchase = purchase.getTotalPurchaseCost() * reffererRewardRate;
             referrerUser.setMoney(referrerUser.getMoney() + shareFromPurchase);
             userFacade.updateUser(referrerUser);
         }

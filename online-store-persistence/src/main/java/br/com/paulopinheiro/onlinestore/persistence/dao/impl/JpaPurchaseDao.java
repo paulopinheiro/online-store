@@ -12,7 +12,9 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JpaPurchaseDao implements PurchaseDao {
     @Override
     public void savePurchase(PurchaseDto order) {

@@ -4,7 +4,9 @@ import br.com.paulopinheiro.onlinestore.persistence.dao.CategoryDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.CategoryDto;
 import jakarta.persistence.Persistence;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JpaCategoryDao implements CategoryDao {
     @Override
     public CategoryDto getCategoryByCategoryId(int id) {

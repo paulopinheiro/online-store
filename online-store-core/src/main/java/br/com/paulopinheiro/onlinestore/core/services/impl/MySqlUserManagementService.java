@@ -4,32 +4,26 @@ import br.com.paulopinheiro.onlinestore.core.services.UserManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.UserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.UserDtoToUserConverter;
 import br.com.paulopinheiro.onlinestore.core.mail.MailSender;
-import br.com.paulopinheiro.onlinestore.core.mail.impl.DefaultMailSender;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaUserDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.UserDto;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MySqlUserManagementService implements UserManagementService {
     public static final String SUCCESSFULL_REGISTRATION_MESSAGE = "User is registered!";
     private static final String REGISTRATION_ERROR_MESSAGE = "The email is already in use by other user.";
 
-    private final UserDao userDao;
-    private final UserDtoToUserConverter userConverter;
-    private final MailSender mailSender;
-
-    {
-        userDao = new JpaUserDao();
-        userConverter = new UserDtoToUserConverter();
-        mailSender = DefaultMailSender.getInstance();
-    }
+    @Autowired private UserDao userDao;
+    @Autowired private UserDtoToUserConverter userConverter;
+    @Autowired private MailSender mailSender;
 
     @Override
     public String registerUser(User user) {
         boolean isCreated = userDao.saveUser(userConverter.convertUserToUserDto(user));
 
-        if (isCreated) return SUCCESSFULL_REGISTRATION_MESSAGE;
-        else return REGISTRATION_ERROR_MESSAGE;
+        return isCreated ? SUCCESSFULL_REGISTRATION_MESSAGE : REGISTRATION_ERROR_MESSAGE;
     }
 
     @Override

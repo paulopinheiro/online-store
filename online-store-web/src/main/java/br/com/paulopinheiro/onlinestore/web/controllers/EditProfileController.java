@@ -1,0 +1,82 @@
+package br.com.paulopinheiro.onlinestore.web.controllers;
+
+import br.com.paulopinheiro.onlinestore.core.facades.UserFacade;
+import br.com.paulopinheiro.onlinestore.core.services.Validator;
+import br.com.paulopinheiro.onlinestore.core.services.impl.CorePasswordValidator;
+import br.com.paulopinheiro.onlinestore.persistence.entities.User;
+import jakarta.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Locale;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+@RequestMapping("/edit-profile")
+public class EditProfileController {
+    @Autowired private UserFacade userFacade;
+    @Autowired private Validator passValidator;
+    @Autowired private MessageSource messageSource;
+    @Autowired private PasswordEncoder passwordEncoder;
+
+    @GetMapping
+    public String doGet(HttpSession session) {
+        User loggedInUser = (User) session.getAttribute(SignInController.LOGGED_IN_USER_ATTR);
+
+        if (loggedInUser == null) return "redirect:/signin";
+        else return "editProfile";
+    }
+
+    @PostMapping
+    public String doPost(HttpSession session, @RequestParam String firstName, @RequestParam String lastName,
+                         @RequestParam("email") String emailParameter,
+                         @RequestParam String password,
+                         @RequestParam("newPassword") String newPasswordParameter) {
+        User loggedInUser = (User)session.getAttribute(SignInController.LOGGED_IN_USER_ATTR);
+        User user = userFacade.getUserById(loggedInUser.getId()); //refresh object state
+
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(emailParameter);
+
+        User userByEmail = userFacade.getUserByEmail(user.getEmail());
+
+        if (userByEmail != null && !emailParameter.equals(loggedInUser.getEmail())) {
+            session.setAttribute("errMsg", messageSource.getMessage("signup.err.msg.email.exists", null, Locale.getDefault()));
+            return "redirect:/edit-profile";
+        }
+
+        if (!passwordEncoder.matches(password, loggedInUser.getPassword())) {
+            session.setAttribute("errMsg", messageSource.getMessage("signup.err.msg.old.password.wrong", null, Locale.getDefault()));
+            return "redirect:/edit-profile";
+        }
+
+        if (newPasswordParameter != null && !newPasswordParameter.isEmpty()) {
+            List<String> errorMessages = passValidator.validate(newPasswordParameter);
+
+            if (!errorMessages.isEmpty()) {
+                String errMsg = messageSource.getMessage("signup.err.msg.general.error", null, Locale.getDefault());
+                if (errorMessages.contains(CorePasswordValidator.LENGTH_OR_SPECIAL_CHARACTER_ERROR)) {
+                    errMsg = messageSource.getMessage("signup.err.msg.special.character", null, Locale.getDefault());
+                }
+                if (errorMessages.contains(CorePasswordValidator.MOST_COMMON_PASSWORD)) {
+                    errMsg = messageSource.getMessage("signup.err.msg.common.password", null, Locale.getDefault());
+                }
+                session.setAttribute("errMsg", errMsg);
+                return "redirect:/edit-profile";
+            }
+        }
+
+        if (newPasswordParameter != null && !newPasswordParameter.isEmpty()) {
+            user.setPassword(passwordEncoder.encode(newPasswordParameter));
+        }
+
+        userFacade.updateUser(user);
+        return "redirect:/my-profile";
+    }
+}

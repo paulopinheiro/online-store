@@ -6,12 +6,12 @@ import br.com.paulopinheiro.onlinestore.persistence.entities.impl.DefaultProduct
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductDtoToProductConverter {
-    private final CategoryDtoToCategoryConverter categoryConverter;
-    {
-        categoryConverter = new CategoryDtoToCategoryConverter();
-    }
+    @Autowired private CategoryDtoToCategoryConverter categoryConverter;
 
     public List<Product> convertProductDtosToProducts(List<ProductDto> productDtos) {
         List<Product> products = new ArrayList<>();

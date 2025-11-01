@@ -1,5 +1,7 @@
 package br.com.paulopinheiro.onlinestore.persistence.entities;
 
+import java.util.List;
+
 public interface User {
     String getFirstName();
     void setFirstName(String firstName);
@@ -18,9 +20,6 @@ public interface User {
 
     void setEmail(String newEmail);
 
-    String getRoleName();
-    void setRoleName(String roleName);
-
     double getMoney();
     void setMoney(double money);
 
@@ -32,4 +31,10 @@ public interface User {
 
     void setReferrerUser(User convertUserDtoToUser);
     User getReferrerUser();
+
+    List<Role> getRoles();
+    void setRoles(List<Role> roles);
+
+    boolean isEnabled();
+    void setEnabled(boolean idEnabled);
 }

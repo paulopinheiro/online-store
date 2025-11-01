@@ -2,20 +2,17 @@ package br.com.paulopinheiro.onlinestore.core.services.impl;
 
 import br.com.paulopinheiro.onlinestore.core.services.PurchaseManagementService;
 import br.com.paulopinheiro.onlinestore.persistence.dao.PurchaseDao;
-import br.com.paulopinheiro.onlinestore.persistence.dao.impl.JpaPurchaseDao;
 import br.com.paulopinheiro.onlinestore.persistence.dto.PurchaseDto;
 import br.com.paulopinheiro.onlinestore.persistence.dto.converter.PurchaseDtoToPurchaseConverter;
 import br.com.paulopinheiro.onlinestore.persistence.entities.Purchase;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class MySqlPurchaseManagementService implements PurchaseManagementService {
-    private final PurchaseDao purchaseDao;
-    private final PurchaseDtoToPurchaseConverter purchaseConverter;
-
-    {
-        purchaseDao = new JpaPurchaseDao();
-        purchaseConverter = new PurchaseDtoToPurchaseConverter();
-    }
+    @Autowired private PurchaseDao purchaseDao;
+    @Autowired private PurchaseDtoToPurchaseConverter purchaseConverter;
 
     @Override
     public void addPurchase(Purchase purchase) {

@@ -6,7 +6,9 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import java.util.List;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class JpaUserDao implements UserDao {
     @Override
     public boolean saveUser(UserDto user) {
@@ -29,7 +31,7 @@ public class JpaUserDao implements UserDao {
         ) {
             em.getTransaction().begin();
 
-            List<UserDto> users = em.createQuery("SELECT u FROM user u", UserDto.class).getResultList();
+            List<UserDto> users = em.createQuery("SELECT u FROM users u", UserDto.class).getResultList();
 
             em.getTransaction().commit();
             return users;
@@ -44,7 +46,7 @@ public class JpaUserDao implements UserDao {
         ) {
             em.getTransaction().begin();
 
-            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM user u WHERE u.email = :email", UserDto.class);
+            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM users u WHERE u.email = :email", UserDto.class);
             query.setParameter("email", userEmail);
             try {
                 UserDto user = query.getSingleResult();
@@ -79,7 +81,7 @@ public class JpaUserDao implements UserDao {
         ) {
             em.getTransaction().begin();
             System.out.println(partnerCode);
-            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM user u WHERE u.partnerCode = :partnerCode", UserDto.class);
+            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM users u WHERE u.partnerCode = :partnerCode", UserDto.class);
             query.setParameter("partnerCode", partnerCode);
 
             try {
@@ -115,7 +117,7 @@ public class JpaUserDao implements UserDao {
         ) {
             em.getTransaction().begin();
 
-            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM user u WHERE u.referrerUser.id = :id", UserDto.class);
+            TypedQuery<UserDto> query = em.createQuery("SELECT u FROM users u WHERE u.referrerUser.id = :id", UserDto.class);
             query.setParameter("id", id);
 
             List<UserDto> users = query.getResultList();

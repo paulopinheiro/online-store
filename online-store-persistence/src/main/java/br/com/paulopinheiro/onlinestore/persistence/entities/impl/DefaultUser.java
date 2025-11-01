@@ -1,25 +1,34 @@
 package br.com.paulopinheiro.onlinestore.persistence.entities.impl;
 
-import br.com.paulopinheiro.onlinestore.persistence.utils.validation.Validate;
+import br.com.paulopinheiro.onlinestore.persistence.entities.Role;
 import br.com.paulopinheiro.onlinestore.persistence.entities.User;
-import java.util.Objects;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import java.util.List;
 
 public class DefaultUser implements User {
     private static int userCounter = 0;
 
     private int id;
-    @Validate(pattern="[a-zA-Z]+")
+    @NotEmpty(message = "First Name should not be empty")
+    @Size(min = 3, max = 20, message = "First Name should be between 3 and 20 characters" )
     private String firstName;
-    @Validate(pattern="[a-zA-Z]+")
+    @NotEmpty(message = "Last Name should not be empty")
+    @Size(min = 3, max = 20, message = "Last Name should be between 3 and 20 characters")
     private String lastName;
     private String password;
-    @Validate(pattern=".+@.+")
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Please, use real email")
     private String email;
-    private String roleName;
+    private String repeatPassword;
     private double money;
     private String creditCard;
     private String partnerCode;
     private User referrerUser;
+    private List<Role> roles;
+    private boolean enabled;
+
     {
         id= ++userCounter;
     }
@@ -111,16 +120,6 @@ public class DefaultUser implements User {
     }
 
     @Override
-    public String getRoleName() {
-        return roleName;
-    }
-
-    @Override
-    public void setRoleName(String roleName) {
-        this.roleName = roleName;
-    }
-
-    @Override
     public double getMoney() {
         return money;
     }
@@ -138,14 +137,6 @@ public class DefaultUser implements User {
     @Override
     public void setCreditCard(String creditCard) {
         this.creditCard = creditCard;
-    }
-
-    @Override
-    public String toString() {
-        return "ID: " + this.getId() + "\t\t"
-                + "First Name: " + this.getFirstName() + "\t\t"
-                + "Last Name: " + this.getLastName() + "\t\t"
-                + "Email: " + this.getEmail();
     }
 
     @Override
@@ -167,10 +158,40 @@ public class DefaultUser implements User {
     public User getReferrerUser() {
         return this.referrerUser;
     }
+
+    public String getRepeatPassword() {
+        return repeatPassword;
+    }
+
+    public void setRepeatPassword(String repeatPassword) {
+        this.repeatPassword = repeatPassword;
+    }
+
+    @Override
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    @Override
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public void setEnabled(boolean isEnabled) {
+        this.enabled = isEnabled;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(creditCard, email, firstName, id, lastName, money, partnerCode, password, referrerUser,
-                roleName);
+        int hash = 7;
+        hash = 31 * hash + this.id;
+        return hash;
     }
 
     @Override
@@ -184,12 +205,15 @@ public class DefaultUser implements User {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        DefaultUser other = (DefaultUser) obj;
-        return Objects.equals(creditCard, other.creditCard) && Objects.equals(email, other.email)
-                && Objects.equals(firstName, other.firstName) && id == other.id
-                && Objects.equals(lastName, other.lastName)
-                && Double.doubleToLongBits(money) == Double.doubleToLongBits(other.money)
-                && Objects.equals(partnerCode, other.partnerCode) && Objects.equals(password, other.password)
-                && Objects.equals(referrerUser, other.referrerUser) && Objects.equals(roleName, other.roleName);
+        final DefaultUser other = (DefaultUser) obj;
+        return this.id == other.id;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + this.getId() + "\t\t"
+                + "First Name: " + this.getFirstName() + "\t\t"
+                + "Last Name: " + this.getLastName() + "\t\t"
+                + "Email: " + this.getEmail();
     }
 }
